@@ -19,8 +19,7 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    container:
-      image: rocker/r2u:22.04
+
 
     # Add "id-token" with the intended permissions.
     permissions:
@@ -32,15 +31,17 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      # Use "renv" to retrieve R version recorded in renv.lock file.
-      - run: |
-          apt update
-          apt install --yes --no-install-recommends python3-{dbus,gi,apt}
-          ## Then install bspm (as root) and enable it, and enable a speed optimization
-          Rscript -e 'install.packages("bspm")'
-          RHOME=$(R RHOME)
-          echo "suppressMessages(bspm::enable())" >> ${RHOME}/etc/Rprofile.site
-          echo "options(bspm.version.check=FALSE)" >> ${RHOME}/etc/Rprofile.site
+      - name: Setup r2u
+        uses: eddelbuettel/github-actions/r2u-setup@master
+        
+      - name: SessionInfo
+        run: R -q -e 'sessionInfo()'
+        
+      - name: Package Dependencies
+        # takes advantage of r2u to install the named CRAN packages as binaries
+        # in the r2u context we could also use script 'install.r' 
+        run: Rscript -e 'install.packages(c("tinyspotifyr", "ggplot2", "anytime", "data.table", "tinythemes"))'
+        
 
       - id: 'auth'
         uses: 'google-github-actions/auth@v2'
