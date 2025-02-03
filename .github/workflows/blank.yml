@@ -34,6 +34,7 @@ jobs:
 
       # Use "renv" to retrieve R version recorded in renv.lock file.
       - run: |
+          apt update
           apt install --yes --no-install-recommends python3-{dbus,gi,apt}
           ## Then install bspm (as root) and enable it, and enable a speed optimization
           Rscript -e 'install.packages("bspm")'
