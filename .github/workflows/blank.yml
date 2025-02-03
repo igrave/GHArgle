@@ -33,8 +33,13 @@ jobs:
       - uses: actions/checkout@v4
 
       # Use "renv" to retrieve R version recorded in renv.lock file.
-      - run: apt install --yes --no-install-recommends curl
-      - run: Rscript -e 'install.packages("bspm")'
+      - run: |
+          apt install --yes --no-install-recommends python3-{dbus,gi,apt}
+          ## Then install bspm (as root) and enable it, and enable a speed optimization
+          Rscript -e 'install.packages("bspm")'
+          RHOME=$(R RHOME)
+          echo "suppressMessages(bspm::enable())" >> ${RHOME}/etc/Rprofile.site
+          echo "options(bspm.version.check=FALSE)" >> ${RHOME}/etc/Rprofile.site
 
       - id: 'auth'
         uses: 'google-github-actions/auth@v2'
