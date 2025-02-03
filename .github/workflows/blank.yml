@@ -22,6 +22,11 @@ jobs:
     container:
       image: rocker/r2u:22.04
 
+    # Add "id-token" with the intended permissions.
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -29,3 +34,19 @@ jobs:
 
       # Use "renv" to retrieve R version recorded in renv.lock file.
       - run: Rscript -e 'print("hello")'
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          project_id: 'helpful-range-376621'
+          workload_identity_provider: 'projects/1073903696751/locations/global/workloadIdentityPools/github/providers/my-repo'
+          token_format: 'access_token'
+          service_account: 'ladder-testing-account@helpful-range-376621.iam.gserviceaccount.com'
+          access_token_lifetime: '300s' # optional, default: '3600s' (1 hour)
+          access_token_scopes:  'https://www.googleapis.com/auth/drive.file'
+          create_credentials_file: true
+
+      - id: 'access-secret'
+        run: |-
+          curl https://slides.googleapis.com/v1/presentations/1Bu6ZD0mev_jYpLi-rbJnhl-X3xezY6i4cUPQBubJrEg?fields=slides%28objectId%29 \
+            --header "Authorization: Bearer ${{ steps.auth.outputs.access_token }}"
