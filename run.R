@@ -20,8 +20,9 @@ oidcToken <- httr::GET(
     add_headers(Authorization = paste0("Bearer ", id_token_request_token)),
     query = list(audience = oidcTokenAudience)
 )
-content(oidcToken)$value
-
+oidcTokenString <- content(oidcToken)$value
+nchar(oidcTokenString)
+substr(oidcTokenString, 1, 5)
 # get authtoken -----------------
 
 # client = new WorkloadIdentityFederationClient({
@@ -85,7 +86,7 @@ authtoken <- httr::POST(
         requestedTokenType = "urn:ietf:params:oauth:token-type:access_token",
         scope = paste0(endpoints[["www"]], "/auth/cloud-platform"),
         subjectTokenType = "urn:ietf:params:oauth:token-type:jwt",
-        subjectToken = content(oidcToken)$value
+        subjectToken = oidcTokenString
 
     )
 )
