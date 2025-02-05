@@ -52,7 +52,7 @@ content(oidcToken)$value
 ##[debug]}
 
 make_endpoints <- function(universe) {
-    endpoints <- list(
+    endpoints <- c(
      iam = "https://iam.{universe}/v1",
      iamcredentials = "https://iamcredentials.{universe}/v1",
      oauth2 = "https://oauth2.{universe}",
