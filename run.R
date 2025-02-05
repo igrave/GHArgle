@@ -17,7 +17,7 @@ oidcTokenAudience <- paste0("https://iam.googleapis.com/", workload_identity_pro
 # getIDToken(oidcTokenAudience) --------------------
 oidcToken <- httr::GET(
     id_token_url,
-    add_headers(Authorization = paste0("Bearer ", id_token_request_token),
-     params = list(audience = oidcTokenAudience))
+    add_headers(Authorization = paste0("Bearer ", id_token_request_token)),
+    params = list(audience = oidcTokenAudience)
 )
 oidcToken
