@@ -40,8 +40,10 @@ jobs:
       - name: Package Dependencies
         # takes advantage of r2u to install the named CRAN packages as binaries
         # in the r2u context we could also use script 'install.r' 
-        run: Rscript -e 'install.packages(c("tinyspotifyr", "ggplot2", "anytime", "data.table", "tinythemes"))'
+        run: Rscript -e 'install.packages(c("gargle", "httr", "jsonlite"))'
         
+      - name: Rscript
+        run: Rscript run.R
 
       - id: 'auth'
         uses: 'google-github-actions/auth@v2'
