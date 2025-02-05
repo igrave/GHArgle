@@ -9,7 +9,7 @@ token_format <- 'access_token'
 service_account <- 'ladder-testing-account@helpful-range-376621.iam.gserviceaccount.com'
 access_token_lifetime <- '300s' # optional, default: '3600s' (1 hour)
 access_token_scopes <-  'https://www.googleapis.com/auth/drive.file'
-create_credentials_file <- true
+create_credentials_file <- TRUE
 
 
 oidcTokenAudience <- paste0("https://iam.googleapis.com/", workload_identity_provider)
