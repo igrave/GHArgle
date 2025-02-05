@@ -90,4 +90,4 @@ authtoken <- httr::POST(
     )
 )
 authtoken
-contents(authtoken)
+content(authtoken)
