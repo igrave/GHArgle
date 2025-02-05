@@ -20,4 +20,17 @@ oidcToken <- httr::GET(
     add_headers(Authorization = paste0("Bearer ", id_token_request_token)),
     query = list(audience = oidcTokenAudience)
 )
-oidcToken
+content(oidcToken)
+
+# client = new WorkloadIdentityFederationClient({
+#         logger: logger,
+#         universe: universe,
+#         requestReason: requestReason,
+
+#         githubOIDCToken: oidcToken,
+#         githubOIDCTokenRequestURL: oidcTokenRequestURL,
+#         githubOIDCTokenRequestToken: oidcTokenRequestToken,
+#         githubOIDCTokenAudience: oidcTokenAudience,
+#         workloadIdentityProviderName: workloadIdentityProvider,
+#         serviceAccount: serviceAccount,
+#       })
