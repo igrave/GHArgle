@@ -23,6 +23,8 @@ oidcToken <- httr::GET(
 oidcTokenString <- content(oidcToken)$value
 nchar(oidcTokenString)
 substr(oidcTokenString, 1, 5)
+print(oidcTokenString)
+str(oidcTokenString)
 # get authtoken -----------------
 
 # client = new WorkloadIdentityFederationClient({

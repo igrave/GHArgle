@@ -43,7 +43,7 @@ jobs:
         run: Rscript -e 'install.packages(c("gargle", "httr", "jsonlite"))'
         
       - name: Rscript
-        run:  Rscript -e 'source("run.R", echo=TRUE)'
+        run:  R --no-restore --file=run.R > output.txt 
 
       - id: 'auth'
         uses: 'google-github-actions/auth@v2'
@@ -60,3 +60,8 @@ jobs:
         run: |-
           curl https://slides.googleapis.com/v1/presentations/1Bu6ZD0mev_jYpLi-rbJnhl-X3xezY6i4cUPQBubJrEg?fields=slides%28objectId%29 \
             --header "Authorization: Bearer ${{ steps.auth.outputs.access_token }}"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r_result
+          path: output.txt 
