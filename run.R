@@ -117,7 +117,7 @@ authtoken_access_token <- content(authtoken)$access_token
 access_token <- httr::POST(
     url = paste0(endpoints[["iamcredentials"]], "/projects/-/serviceAccounts/", service_account,":generateAccessToken"),
     add_headers(
-        Authorization = paste0("Bearer ", authtoken_access_token)),
+        Authorization = paste0("Bearer ", authtoken_access_token)
     ),
     body = list(
         scope = list(access_token_scopes),
