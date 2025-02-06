@@ -14,6 +14,10 @@ universe <- "googleapis.com"
 
 oidcTokenAudience <- paste0("https://iam.googleapis.com/", workload_identity_provider)
 
+
+
+
+# 1st Step --------------------------------------
 # getIDToken(oidcTokenAudience) --------------------
 oidcToken <- httr::GET(
     id_token_url,
@@ -21,11 +25,12 @@ oidcToken <- httr::GET(
     query = list(audience = oidcTokenAudience)
 )
 oidcTokenString <- content(oidcToken)$value
-nchar(oidcTokenString)
-substr(oidcTokenString, 1, 5)
-print(oidcTokenString)
-str(oidcTokenString)
+
+
+
+# 2nd Step --------------------------------------
 # get authtoken -----------------
+# https://cloud.google.com/iam/docs/reference/sts/rest/v1/TopLevel/token
 
 # client = new WorkloadIdentityFederationClient({
 #         logger: logger,
@@ -64,13 +69,7 @@ make_endpoints <- function(universe) {
     )
     sub("{universe}", universe, endpoints, fixed = TRUE)
 }
-#   protected readonly _endpoints = {
-#     iam: 'https://iam.{universe}/v1',
-#     iamcredentials: 'https://iamcredentials.{universe}/v1',
-#     oauth2: 'https://oauth2.{universe}',
-#     sts: 'https://sts.{universe}/v1',
-#     www: 'https://www.{universe}',
-#   };
+
 endpoints <- make_endpoints(universe)
 
     #   audience: this.#audience,
@@ -94,4 +93,38 @@ authtoken <- httr::POST(
     encode = "json"
 )
 authtoken
-content(authtoken)
+authtoken_access_token <- content(authtoken)$access_token
+
+# 3rd Step --------------------------------------
+# https://cloud.google.com/iam/docs/reference/credentials/rest/v1/projects.serviceAccounts/generateAccessToken
+
+##[debug]Creating access token
+##[debug]Using normal access token flow
+##[debug]IAMCredentialsClient.generateAccessToken: Built request, {
+##[debug]  "method": "POST",
+##[debug]  "path": "https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/ladder-testing-account@helpful-range-376621.iam.gserviceaccount.com:generateAccessToken",
+##[debug]  "headers": {
+##[debug]    "Authorization": "***"
+##[debug]  },
+##[debug]  "body": {
+##[debug]    "scope": [
+##[debug]      "https://www.googleapis.com/auth/drive.file"
+##[debug]    ],
+##[debug]    "lifetime": "300s"
+##[debug]  }
+##[debug]}
+
+access_token <- httr::POST(
+    url = paste0(endpoints[["iamcredentials"]], "/projects/-/serviceAccounts/", service_account,":generateAccessToken"),
+    add_headers(
+        Authorization = paste0("Bearer ", authtoken_access_token)),
+    ),
+    body = list(
+        scope = list(access_token_scopes),
+        lifetime = access_token_lifetime
+    ),
+    encode = "json"
+)
+
+access_token
+content(access_token)
