@@ -90,7 +90,8 @@ authtoken <- httr::POST(
         subjectTokenType = "urn:ietf:params:oauth:token-type:jwt",
         subjectToken = oidcTokenString
 
-    )
+    ),
+    encode = "json"
 )
 authtoken
 content(authtoken)
