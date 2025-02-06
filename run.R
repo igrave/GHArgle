@@ -127,4 +127,14 @@ access_token <- httr::POST(
 )
 
 access_token
-content(access_token)
+
+
+# 4th Step ----------------
+# Query an API
+
+slides_response <- httr::GET(
+    "https://slides.googleapis.com/v1/presentations/1Bu6ZD0mev_jYpLi-rbJnhl-X3xezY6i4cUPQBubJrEg?fields=slides%28objectId%29",
+    add_headers(Authorization = paste0("Bearer ", content(access_token)$accessToken))
+ )
+
+slides_response
