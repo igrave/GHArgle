@@ -11,7 +11,7 @@ credentials_github_actions(
     lifetime = '3600s',
     scopes = 'https://www.googleapis.com/auth/drive.file'
     )
-}
+)
 
 
 try(
