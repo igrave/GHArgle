@@ -47,7 +47,7 @@ jobs:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
         run: Rscript -e 'remotes::install_github("igrave/gargle@GHArgle")'
 
-        - name: use dev ladder
+      - name: use dev ladder
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
         run: Rscript -e 'remotes::install_github("igrave/ladder@12-create-new-slide-with-title")'
