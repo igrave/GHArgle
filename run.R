@@ -16,7 +16,7 @@ credentials_github_actions(
 
 try(
 with_gargle_verbosity(
-    "info",
+    "debug",
     credentials_github_actions(
     project_id = 'helpful-range-376621', 
     workload_identity_provider = 'projects/1073903696751/locations/global/workloadIdentityPools/github/providers/my-repo',

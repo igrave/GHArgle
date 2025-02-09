@@ -40,10 +40,10 @@ jobs:
       - name: Package Dependencies
         # takes advantage of r2u to install the named CRAN packages as binaries
         # in the r2u context we could also use script 'install.r' 
-        run: Rscript -e 'install.packages(c("httr", "jsonlite", "pak", "gargle"))'
+        run: Rscript -e 'install.packages(c("httr", "jsonlite", "remotes", "gargle"))'
         
       - name: try
-        run: Rscript -e 'pak::pkg_install("igrave/gargle@GHArgle")'
+        run: Rscript -e 'remotes::install_github("igrave/gargle@GHArgle")'
 
       # - name: auth garlge
         # run: Rscript -e "library(gargle); credentials_github_actions(project_id = 'helpful-range-376621', workload_identity_provider = 'projects/1073903696751/locations/global/workloadIdentityPools/github/providers/my-repo', service_account = 'ladder-testing-account@helpful-range-376621.iam.gserviceaccount.com', lifetime = '3600s', scopes = 'https://www.googleapis.com/auth/drive.file')"
