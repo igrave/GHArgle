@@ -41,13 +41,13 @@ jobs:
         # takes advantage of r2u to install the named CRAN packages as binaries
         # in the r2u context we could also use script 'install.r' 
         run: Rscript -e 'install.packages(c("httr", "jsonlite", "remotes", "gargle"))'
-        
-      - name: try
+
+      - name: use dev gargle
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
         run: Rscript -e 'remotes::install_github("igrave/gargle@GHArgle")'
 
-        - name: try
+        - name: use dev ladder
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
         run: Rscript -e 'remotes::install_github("igrave/ladder@12-create-new-slide-with-title")'
